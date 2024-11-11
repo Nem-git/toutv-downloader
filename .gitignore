@@ -179,3 +179,5 @@ manifest*
 !spec/*.json
 *.wvd
 !spec/*.wvd
+settings.json
+tokens.json
