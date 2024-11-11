@@ -11,10 +11,13 @@
 - `download "temps de chien" s01e01-s01e04` (Downloads all episodes from S1E1 to S1E4)
 - `download "temps de chien" s01` (Downloads entire season)
 - `download "temps de chien" s1-s3` (Downloads all episodes from season 1 to 3)
-- `download "temps de chien" s1-s3e2` (Downloads all episodes from season 1 to season 3, episode 2)
+- `download "temps de chien" s1-s3e2` (Downloads all episodes from season 1 to season 3 episode 2)
 - `download "stat e01"` (Downloads all episode 1 in a series) (NOT WORKING)
 
 ## Positional Arguments:
+- **help**
+  Show this help message and exit
+
 - **connect**  
   Connect using your Tou.tv credentials (You need to enter your credentials in the `settings.json` file)
   
@@ -32,9 +35,7 @@
 
 ## Download Options:
 - `-r`  **Resolution** (e.g., `-r 1080` or `-r 720`)
-- `-q`  **Quiet mode** (No output in terminal about what the program is doing)
+- `-q`  **Quiet mode** (Don't display output in the terminal about what the program is doing.)
 - `-ad` **Audiodescription** (Also downloads the audiodescription audio tracks)
 - `-l`  **Latest Episode** (Downloads the latest episode that was available)
-
-## Help:
-- `help`  Show this help message and exit
+- `-s`  **Subtitles** (Doesn't seem to be working right now, unsure why)
