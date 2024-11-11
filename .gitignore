@@ -176,4 +176,6 @@ manifest*
 
 # Important files
 *.json
+!spec/*.json
 *.wvd
+!spec/*.wvd
