@@ -167,8 +167,8 @@ def show_info(url: str, quiet: bool = False) -> dict[str, str]:
         for show_tags in show["tags"]:
             print(show_tags)
         print("-----------------------------------------------------------------------------------------------------")
-        print(f"{show["numberOfSeasons"]} saisons")
-        print(f"{show["numberOfEpisodes"]} episodes")
+        print(f"{show['numberOfSeasons']} saisons")
+        print(f"{show['numberOfEpisodes']} episodes")
         print("-----------------------------------------------------------------------------------------------------")
         print(show["type"])
 
@@ -396,8 +396,6 @@ def download(args):
         if len(args) > 3:
             if args[3][1:] != "-":
                 seasons_episodes = args[3]
-                print(args[3])
-                print(args[3][:1])
         
         url = args[2]
         if len(args) > 2:
