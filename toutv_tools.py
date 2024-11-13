@@ -61,3 +61,13 @@ def validate_url(url: str) -> bool:
         return False
 
     return True
+
+def get_client_key():
+    url="https://services.radio-canada.ca/toutv/presentation/settings?device=web&version=4"  
+    try:
+        r  = requests.get(url, headers={"Accept": "application/json"})
+        clientKey = r.json()["LoginClientIdWeb"]
+    except:
+        print ("Oups, probleme avec "  + url + ": on utilise la valeur par default")
+        clientKey = "90505c8d-9c34-4f34-8da1-3a85bdc6d4f4" # valeur par defaut si erreur
+    return clientKey

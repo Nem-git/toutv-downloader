@@ -214,19 +214,26 @@ def get_download(url, latest, seasons_episodes, options):
 
 def download_content(id: int, options):
     episode_info_url: str = f"https://services.radio-canada.ca/media/validation/v2/?appCode=toutv&connectionType=hd&deviceType=multiams&idMedia={id}&multibitrate=true&output=json&tech=dash&manifestVersion=2"
+    episode_info_url: str = f"https://services.radio-canada.ca/media/validation/v2/?appCode=toutv&connectionType=hd&deviceType=multiams&multibitrate=true&output=json&tech=dash&manifestVersion=2&idMedia={id}" #&claims={options['headers']['x-claims-token']})"
+    #print(options['headers']['x-claims-token'])
+    #client_key = toutv_tools.get_client_key()
 
     r = requests.get(episode_info_url)
     resp = r.json()
-    
+
     if r.status_code != 200:
         return
 
     if resp["errorCode"] != 0:
-        r = requests.get(url=episode_info_url, headers=options["headers"])
+        r = requests.get(episode_info_url, headers=options["headers"])
         resp: dict[str, str] = r.json()
     
     if r.status_code != 200:
         return
+    
+    if resp["errorCode"] != 0:
+        print("Couldnt request using given credentials")
+        exit()
 
     fixed_resp = toutv_tools.fix_json(resp)
 
@@ -235,11 +242,11 @@ def download_content(id: int, options):
     key: str = fixed_resp["widevineAuthToken"]
     licence_url: str = fixed_resp["widevineLicenseUrl"]
 
-    headers = {"x-dt-auth-token": key}
+    challenge_headers = {"x-dt-auth-token": key}
 
     options["mpd_url"] = mpd_url
     options["licence_url"] = licence_url
-    options["headers"] = headers
+    options["challengeHeaders"] = challenge_headers
 
     
 
@@ -249,7 +256,7 @@ def download_toutv(options):
 
     options["pssh"] = dash.get_pssh(options["mpd_url"], options["quiet"])
 
-    options["decryption_keys"] = dash.setup_licence_challenge(options["pssh"], options["licence_url"], options["wvd_path"], options["headers"])
+    options["decryption_keys"] = dash.setup_licence_challenge(options["pssh"], options["licence_url"], options["wvd_path"], options["challengeHeaders"])
 
     n_m3u8dl_re_command = [
         "n-m3u8dl-re",
@@ -422,6 +429,15 @@ args = sys.argv
 
 if len(args) < 2:
     print(toutv_tools.help_text)
+    
+    #args.append("download")
+    #args.append("temps de chien")
+    #args.append("-r")
+    #args.append("720")
+    #args.append("-ad")
+    #args.append("s1-s3")
+
+    download(args)
 
     exit()
 
