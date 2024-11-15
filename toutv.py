@@ -201,13 +201,13 @@ def get_download(url, latest, seasons_episodes, options):
             options["path"] = f'{chosen_episodes["titre"]}'
         
         else:
-            options["path"] = f'{chosen_episodes["title"]}.S{episode["seasonNumber"]:02}E{episode["episodeNumber"]:02}'
+            options["path"] = f'{chosen_episodes["title"]}.S{episode["seasonNumber"]:02}E{episode["episodeNumber"]:02}.{options["language"].upper()[:2]}'
             options["clean_name"] = f'{chosen_episodes["title"]} Saison {episode["seasonNumber"]} Episode {episode["episodeNumber"]}'
 
-            if options["all_audios"]:
-                options["path"] += ".AD"
+        if options["all_audios"]:
+            options["path"] += ".AD"
         
-        options["path"] += f'.{options["resolution"]}p.{options["language"].upper()[:2]}{custom_string}'
+        options["path"] += f'.{options["resolution"]}p{custom_string}'
 
         download_content(episode["idMedia"], options)
 

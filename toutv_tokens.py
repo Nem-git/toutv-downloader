@@ -8,12 +8,17 @@ import requests
 import json
 import base64
 import time
+import tools
 
-def login(settings_path: str) -> tuple[str, str, str, str]:
-    email, password, wvd_path, custom_string = read_creds_from_file(file_path=settings_path)
+
+
+
+def login(settings_path: str) -> tuple[str, str, str]:
+    email, password, wvd_path, custom_string = tools.read_creds_from_file(file_path=settings_path)
     headers = {}
+    
     try:
-        headers = read_tokens()
+        headers = tools.read_tokens()
         if not verify_premium(headers["Authorization"]):
             a_token = get_access_token(email, password)
             x_token = get_x_token(a_token)
@@ -24,21 +29,9 @@ def login(settings_path: str) -> tuple[str, str, str, str]:
         x_token = get_x_token(a_token)
         headers = {"Authorization" : a_token, "x-claims-token" : x_token}
     
-    write_tokens(headers)
+    tools.write_tokens(headers)
 
     return headers, wvd_path, custom_string
-
-
-def write_tokens(headers: dict) -> None:
-    with open("tokens.json", "wt") as f:
-        f.write(json.dumps(headers))
-
-
-def read_tokens() -> tuple[str, str]:
-    with open("tokens.json", "rt") as f:
-        headers = json.loads(f.read())
-
-    return headers
 
 
 def verify_premium(auth_token: str) -> bool:
@@ -53,17 +46,7 @@ def verify_premium(auth_token: str) -> bool:
     return True
 
 
-def read_creds_from_file(file_path: str) -> tuple[str, str, str, str]:
 
-    with open(file=file_path, mode="rt") as f:
-        js = json.load(f)
-
-    email = js["email"]
-    password = js["password"]
-    wvd_path = js["wvdPath"]
-    custom_string = js["customString"]
-
-    return email, password, wvd_path, custom_string
 
 
 def get_x_token(access_token: str):

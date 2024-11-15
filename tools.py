@@ -1,4 +1,5 @@
 import os
+import json
 
 
 
@@ -107,6 +108,19 @@ def parse_season_episode(url: str, seasons_episodes: str):
     return url, start_season, end_season, start_episode, end_episode
 
 
+def read_creds_from_file(file_path: str) -> tuple[str, str, str, str]:
+
+    with open(file=file_path, mode="rt") as f:
+        js = json.load(f)
+
+    email = js["email"]
+    password = js["password"]
+    wvd_path = js["wvdPath"]
+    custom_string = js["customString"]
+
+    return email, password, wvd_path, custom_string
+
+
 def delete_files(filename, exceptions):
     known_files = []
     
@@ -115,6 +129,16 @@ def delete_files(filename, exceptions):
             if file[-len(exception):] != exception:
                 os.remove(file)
 
+def write_tokens(headers: dict) -> None:
+    with open("tokens.json", "wt") as f:
+        f.write(json.dumps(headers))
+
+
+def read_tokens() -> tuple[str, str]:
+    with open("tokens.json", "rt") as f:
+        headers = json.loads(f.read())
+
+    return headers
 
 
 def get_downloaded_name(filename, filetype, known_files):
