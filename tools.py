@@ -1,9 +1,10 @@
 import os
 import json
+import string
 
 
 
-def parse_season_episode(url: str, seasons_episodes: str):
+def parse_season_episode(seasons_episodes: str):
     seasons_episodes = seasons_episodes.lower()
     start_season = 0
     end_season = 0
@@ -56,7 +57,7 @@ def parse_season_episode(url: str, seasons_episodes: str):
         start_episode = 0
         end_episode = 999
 
-        return url, start_season, end_season, start_episode, end_episode
+        return start_season, end_season, start_episode, end_episode
 
 
     #EPISODES
@@ -105,7 +106,7 @@ def parse_season_episode(url: str, seasons_episodes: str):
         start_episode = 0
         end_episode = 999
 
-    return url, start_season, end_season, start_episode, end_episode
+    return start_season, end_season, start_episode, end_episode
 
 
 def read_creds_from_file(file_path: str) -> tuple[str, str, str, str]:
@@ -129,13 +130,13 @@ def delete_files(filename, exceptions):
             if file[-len(exception):] != exception:
                 os.remove(file)
 
-def write_tokens(headers: dict) -> None:
-    with open("tokens.json", "wt") as f:
+def write_tokens(filename: str, headers: dict) -> None:
+    with open(f"{filename}.json", "wt") as f:
         f.write(json.dumps(headers))
 
 
-def read_tokens() -> tuple[str, str]:
-    with open("tokens.json", "rt") as f:
+def read_tokens(filename) -> tuple[str, str]:
+    with open(f"{filename}.json", "rt") as f:
         headers = json.loads(f.read())
 
     return headers
@@ -150,5 +151,25 @@ def get_downloaded_name(filename, filetype, known_files):
                     files.append(file)
     return files
 
+
+def clean_filename(name: str) -> str:
+    accepted_charaters = string.ascii_letters + string.digits + "-."
+    new_name = ""
+    for char in name:
+        if char not in accepted_charaters:
+            char = ""
+        
+        if len(new_name) >= 1:
+            if new_name[-1] == ".":
+                if char in string.ascii_letters:
+                    char = char.capitalize()
+            
+            else:
+                if char in string.whitespace:
+                    char = "."
+
+        new_name += char
+    
+    return new_name
 
 

@@ -177,3 +177,5 @@ manifest*
 # Important files
 *.json
 *.wvd
+*.m4s
+*.mpd

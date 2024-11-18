@@ -18,18 +18,24 @@ def login(settings_path: str) -> tuple[str, str, str]:
     headers = {}
     
     try:
-        headers = tools.read_tokens()
+        headers = tools.read_tokens("toutv_tokens")
         if not verify_premium(headers["Authorization"]):
             a_token = get_access_token(email, password)
             x_token = get_x_token(a_token)
             headers = {"Authorization" : a_token, "x-claims-token" : x_token}
 
     except:
-        a_token = get_access_token(email, password)
-        x_token = get_x_token(a_token)
-        headers = {"Authorization" : a_token, "x-claims-token" : x_token}
+        try:
+            a_token = get_access_token(email, password)
+            x_token = get_x_token(a_token)
+            headers = {"Authorization" : a_token, "x-claims-token" : x_token}
+        except:
+            a_token = ""
+            x_token = ""
+            headers = {"Authorization": "a", "x-claims-token": "a"}
+
     
-    tools.write_tokens(headers)
+    tools.write_tokens("toutv_tokens", headers)
 
     return headers, wvd_path, custom_string
 
@@ -44,9 +50,6 @@ def verify_premium(auth_token: str) -> bool:
         return False
     
     return True
-
-
-
 
 
 def get_x_token(access_token: str):

@@ -5,6 +5,7 @@ import tools
 import subprocess
 import dash
 import toutv_tools
+import os
 
 
 def search_shows(query: str, quiet: bool = False) -> None:
@@ -176,7 +177,7 @@ def show_info(url: str, quiet: bool = False) -> dict[str, str]:
 
 
 def get_download(url, latest, seasons_episodes, options):
-    url, start_season, end_season, start_episode, end_episode = tools.parse_season_episode(url, seasons_episodes)
+    start_season, end_season, start_episode, end_episode = tools.parse_season_episode(seasons_episodes)
     all_episodes = list_episodes(url, options["quiet"])
 
     chosen_episodes = {}
@@ -234,8 +235,13 @@ def download_content(id: int, options):
     if resp["errorCode"] != 0:
         print("Couldnt request using given credentials")
         exit()
-
+    
     fixed_resp = toutv_tools.fix_json(resp)
+    
+    index_episode_url = f"https://services.radio-canada.ca/media/meta/v1/index.ashx?appCode=toutv&idMedia={id}&output=jsonObject"
+    resp = requests.get(index_episode_url).json()
+
+    options["subs_url"] = resp["Metas"]["closedCaptionHTML5"]
 
     low_res_mpd = fixed_resp["url"]
     mpd_url: str = low_res_mpd.replace("filter=3000", "filter=7000")
@@ -282,11 +288,9 @@ def download_toutv(options):
         n_m3u8dl_re_command.append("best")
     
     if options["subs"]:
-        n_m3u8dl_re_command.append("--sub-format")
-        n_m3u8dl_re_command.append("VTT")
-        n_m3u8dl_re_command.append("-ss")
-        n_m3u8dl_re_command.append("all")
-
+        vtt_text = requests.get(options["subs_url"]).text
+        with open(f"{options['path']}.vtt", "wt") as f:
+            f.write(vtt_text)
 
     if options["quiet"]:
         subprocess.run(n_m3u8dl_re_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -333,7 +337,7 @@ def download_toutv(options):
 
     if options["subs"]:
         if subs != []:
-            mkvmerge_command.extend(["--language", f'0:{options["language"]}', "--track-name", f"0:{track_name} ", subs])
+            mkvmerge_command.extend(["--language", f'0:{options["language"]}', "--track-name", f"0:{track_name} ", subs[0]])
 
     if options["quiet"]:
         subprocess.run(mkvmerge_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -431,13 +435,15 @@ if len(args) < 2:
     print(toutv_tools.help_text)
     
     #args.append("download")
-    #args.append("temps de chien")
+    #args.append("cirkus")
     #args.append("-r")
     #args.append("720")
+    #args.append("-l")
+    #args.append("-s")
     #args.append("-ad")
     #args.append("s1-s3")
 
-    download(args)
+    #download(args)
 
     exit()
 

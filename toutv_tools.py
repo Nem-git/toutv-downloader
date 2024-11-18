@@ -33,7 +33,7 @@ download options:
     -q                  Don't have any output in terminal about what the program is doing
     -ad                 Also downloads the audiodescription audio tracks
     -l                  Downloads the latest episode that was available
-    -s                  Downloads subtitles (Doesn't seem like it's working right now, idk why)
+    -s                  Downloads subtitles
     
 
 """
