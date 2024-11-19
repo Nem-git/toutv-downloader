@@ -434,16 +434,16 @@ args = sys.argv
 if len(args) < 2:
     print(toutv_tools.help_text)
     
-    args.append("download")
-    args.append("stat")
+    #args.append("download")
+    #args.append("stat")
     #args.append("-r")
     #args.append("720")
-    args.append("-l")
-    args.append("-s")
+    #args.append("-l")
+    #args.append("-s")
     #args.append("-ad")
     #args.append("s1-s3")
 
-    download(args)
+    #download(args)
 
     exit()
 
