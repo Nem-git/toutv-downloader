@@ -15,26 +15,25 @@ import tools
 
 def login(settings_path: str) -> tuple[str, str, str]:
     email, password, wvd_path, custom_string = tools.read_creds_from_file(file_path=settings_path)
-    headers = {}
-    
+    a_token = ""
+    x_token = ""
+
     try:
-        headers = tools.read_tokens("toutv_tokens")
+        headers = tools.read_tokens()
         if not verify_premium(headers["Authorization"]):
             a_token = get_access_token(email, password)
             x_token = get_x_token(a_token)
-            headers = {"Authorization" : a_token, "x-claims-token" : x_token}
 
     except:
         try:
             a_token = get_access_token(email, password)
             x_token = get_x_token(a_token)
-            headers = {"Authorization" : a_token, "x-claims-token" : x_token}
         except:
             a_token = ""
             x_token = ""
-            headers = {"Authorization": "a", "x-claims-token": "a"}
-
     
+    headers = {"Authorization" : a_token, "x-claims-token" : x_token}
+
     tools.write_tokens("toutv_tokens", headers)
 
     return headers, wvd_path, custom_string

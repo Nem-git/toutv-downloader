@@ -288,8 +288,8 @@ def download_toutv(options):
         n_m3u8dl_re_command.append("best")
     
     if options["subs"]:
-        vtt_text = requests.get(options["subs_url"]).text
-        with open(f"{options['path']}.vtt", "wt") as f:
+        vtt_text = requests.get(options["subs_url"]).content
+        with open(f"{options['path']}.vtt", "wb") as f:
             f.write(vtt_text)
 
     if options["quiet"]:
@@ -337,7 +337,7 @@ def download_toutv(options):
 
     if options["subs"]:
         if subs != []:
-            mkvmerge_command.extend(["--language", f'0:{options["language"]}', "--track-name", f"0:{track_name} ", subs[0]])
+            mkvmerge_command.extend(["--language", f'0:{options["language"].lower()}', "--track-name", f"0:{track_name} ", subs[0]])
 
     if options["quiet"]:
         subprocess.run(mkvmerge_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -434,16 +434,16 @@ args = sys.argv
 if len(args) < 2:
     print(toutv_tools.help_text)
     
-    #args.append("download")
-    #args.append("cirkus")
+    args.append("download")
+    args.append("stat")
     #args.append("-r")
     #args.append("720")
-    #args.append("-l")
-    #args.append("-s")
+    args.append("-l")
+    args.append("-s")
     #args.append("-ad")
     #args.append("s1-s3")
 
-    #download(args)
+    download(args)
 
     exit()
 
