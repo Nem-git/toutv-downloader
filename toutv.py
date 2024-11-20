@@ -241,7 +241,13 @@ def download_content(id: int, options):
     index_episode_url = f"https://services.radio-canada.ca/media/meta/v1/index.ashx?appCode=toutv&idMedia={id}&output=jsonObject"
     resp = requests.get(index_episode_url).json()
 
-    options["subs_url"] = resp["Metas"]["closedCaptionHTML5"]
+    if resp["Metas"]["EIA608ClosedCaptions"] == "true":
+        options["subs_url"] = resp["Metas"]["closedCaptionHTML5"]
+    else:
+        options["subs"] = False
+    
+    if resp["Metas"]["describedVideo"] == "false":
+        options["all_audios"] = False
 
     low_res_mpd = fixed_resp["url"]
     mpd_url: str = low_res_mpd.replace("filter=3000", "filter=7000")
@@ -280,17 +286,20 @@ def download_toutv(options):
         n_m3u8dl_re_command.append("--key")
         n_m3u8dl_re_command.append(key)
 
+    n_m3u8dl_re_command.append("-sa")
     if options["all_audios"]:
-        n_m3u8dl_re_command.append("-sa")
         n_m3u8dl_re_command.append("all")
     else:
-        n_m3u8dl_re_command.append("-sa")
         n_m3u8dl_re_command.append("best")
     
     if options["subs"]:
-        vtt_text = requests.get(options["subs_url"]).content
-        with open(f"{options['path']}.vtt", "wb") as f:
-            f.write(vtt_text)
+        try:
+            vtt_text = requests.get(options["subs_url"]).content
+            with open(f"{options['path']}.vtt", "wb") as f:
+                f.write(vtt_text)
+        except requests.exceptions.MissingSchema:
+            options["subs"] = False
+
 
     if options["quiet"]:
         subprocess.run(n_m3u8dl_re_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -435,9 +444,9 @@ if len(args) < 2:
     print(toutv_tools.help_text)
     
     #args.append("download")
-    #args.append("stat")
+    #args.append("Lena reve")
     #args.append("-r")
-    #args.append("720")
+    #args.append("360")
     #args.append("-l")
     #args.append("-s")
     #args.append("-ad")
