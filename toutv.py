@@ -199,10 +199,10 @@ def get_download(url, latest, seasons_episodes, options):
 
         if episode["mediaType"] == "Standalone":
             options["clean_name"] = chosen_episodes["title"]
-            options["path"] = f'{chosen_episodes["titre"]}'
+            options["path"] = tools.clean_filename(f'{chosen_episodes["title"]}')
         
         else:
-            options["path"] = f'{chosen_episodes["title"]}.S{episode["seasonNumber"]:02}E{episode["episodeNumber"]:02}.{options["language"].upper()[:2]}'
+            options["path"] = tools.clean_filename(f'{chosen_episodes["title"]}.S{episode["seasonNumber"]:02}E{episode["episodeNumber"]:02}.{options["language"].upper()[:2]}')
             options["clean_name"] = f'{chosen_episodes["title"]} Saison {episode["seasonNumber"]} Episode {episode["episodeNumber"]}'
 
         if options["all_audios"]:
