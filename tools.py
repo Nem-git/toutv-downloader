@@ -2,6 +2,8 @@ import os
 import json
 import string
 from unidecode import unidecode
+import subprocess
+import dash
 
 
 
@@ -179,3 +181,108 @@ def clean_filename(name: str) -> str:
     return new_name
 
 
+
+def n_m3u8dl_re_download(options):
+    commands = []
+
+    n_m3u8dl_re_video_command = [
+        "n-m3u8dl-re",
+        options["mpd_url"],
+        "--use-shaka-packager",
+        "-sv",
+        f'res={options["resolution"]}*:for=best',
+        "--save-name",
+        options["path"]
+    ]
+
+    commands.append(n_m3u8dl_re_video_command)
+
+
+    n_m3u8dl_re_audio_command = [
+        "n-m3u8dl-re",
+        options["mpd_url"],
+        "--use-shaka-packager",
+        "-sa",
+        f'role="Main":for=best',
+        "--save-name",
+        options["path"]
+    ]
+
+    commands.append(n_m3u8dl_re_audio_command)
+
+    if options["audio_description"]:
+        n_m3u8dl_re_audio_description_command = [
+            "n-m3u8dl-re",
+            options["mpd_url"],
+            "--use-shaka-packager",
+            "-sa",
+            f'role="Alternate":for=best',
+            "--save-name",
+            f'{options["path"]}.ad'
+        ]
+
+        commands.append(n_m3u8dl_re_audio_description_command)
+
+    for command in commands:
+        for key in options["decryption_keys"]:
+            command.append("--key")
+            command.append(key)
+
+        if options["quiet"]:
+            subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        else:
+            subprocess.run(command)
+
+    
+def mkvmerge_merge(options):
+    mkvmerge_command = [
+        "mkvmerge",
+        "-o",
+        f'{options["path"]}.mkv',
+        "--title",
+        options["clean_name"],
+        "--default-language",
+        options["language"]
+    ]
+
+    if options["audio_description"]:
+        auido_description_audio = get_downloaded_name(options["path"], ".m4a", [])
+    
+        main_audio = get_downloaded_name(options["path"], ".m4a", [auido_description_audio])
+
+    else:
+        main_audio = get_downloaded_name(options["path"], ".m4a", [])
+    
+    if options["subs"]:
+        subs = get_downloaded_name(options["path"], ".vtt", [])
+
+    if options["quiet"]:
+        mkvmerge_command.append("-q")
+    else:
+        mkvmerge_command.append("-v")
+
+    track_name = options["language"]
+
+    if options["language"] == "fr-CA":
+        track_name = "VFQ"
+    
+    #VIDEO
+    mkvmerge_command.extend(["--original-flag", "0", "--default-track-flag", "0", "--track-name", f'0:original {options["resolution"]}p', f'{options["path"]}.mp4'])
+
+    #AUDIO
+    mkvmerge_command.extend(["--original-flag", "0", "--default-track-flag", "0", "--language", f'0:{options["language"]}', "--track-name", f"0:{track_name}", main_audio[0]])
+    
+    if options["audio_description"]:
+        #AUDIODESCRIPTION
+        mkvmerge_command.extend(["--visual-impaired-flag", "1", "--default-track-flag", "0:0", "--language", f'0:{options["language"]}', "--track-name", f"0:{track_name} AD", auido_description_audio[0]])
+
+    if options["subs"]:
+        if subs != []:
+            mkvmerge_command.extend(["--language", f'0:{options["language"].lower()}', "--track-name", f"0:{track_name} ", subs[0]])
+
+    if options["quiet"]:
+        subprocess.run(mkvmerge_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    else:
+        subprocess.run(mkvmerge_command)
+    
+    delete_files(options["path"], [".mkv"])
