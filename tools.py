@@ -3,7 +3,6 @@ import json
 import string
 from unidecode import unidecode
 import subprocess
-import dash
 
 
 
@@ -150,7 +149,7 @@ def get_downloaded_name(filename, filetype, known_files):
     for file in os.listdir(os.getcwd()):
         if os.path.isfile(file):
             if filename == file[0: len(filename)] and file not in known_files:
-                if filetype == "" or filetype == file[-len(filetype):] and "copy" not in file[-len(filetype) - 5: -len(filetype)]:
+                if filetype == "" or filetype == file[-len(filetype):]:
                     files.append(file)
     return files
 
@@ -246,9 +245,9 @@ def mkvmerge_merge(options):
     ]
 
     if options["audio_description"]:
-        auido_description_audio = get_downloaded_name(options["path"], ".m4a", [])
+        audio_description_audio = get_downloaded_name(f'{options["path"]}.ad', ".m4a", [])
     
-        main_audio = get_downloaded_name(options["path"], ".m4a", [auido_description_audio])
+        main_audio = get_downloaded_name(options["path"], ".m4a", audio_description_audio)
 
     else:
         main_audio = get_downloaded_name(options["path"], ".m4a", [])
@@ -274,7 +273,7 @@ def mkvmerge_merge(options):
     
     if options["audio_description"]:
         #AUDIODESCRIPTION
-        mkvmerge_command.extend(["--visual-impaired-flag", "1", "--default-track-flag", "0:0", "--language", f'0:{options["language"]}', "--track-name", f"0:{track_name} AD", auido_description_audio[0]])
+        mkvmerge_command.extend(["--visual-impaired-flag", "1", "--default-track-flag", "0:0", "--language", f'0:{options["language"]}', "--track-name", f"0:{track_name} AD", audio_description_audio[0]])
 
     if options["subs"]:
         if subs != []:
