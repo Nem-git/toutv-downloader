@@ -272,6 +272,7 @@ def download_toutv(options):
             options["subs"] = False
 
     tools.n_m3u8dl_re_download(options)
+    tools.remove_phantom_subs(options)
     tools.mkvmerge_merge(options)
 
 
@@ -363,12 +364,13 @@ if len(args) < 2:
     print(toutv_tools.help_text)
     
     #args.append("download")
-    #args.append("Lena reve")
+    #args.append("Infoman")
     #args.append("-r")
     #args.append("360")
     #args.append("-l")
     #args.append("-s")
     #args.append("-ad")
+    #args.append("-q")
     #args.append("s1-s3")
 
     #download(args)

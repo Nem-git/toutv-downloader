@@ -191,7 +191,7 @@ def n_m3u8dl_re_download(options):
         "-sv",
         f'res={options["resolution"]}*:for=best',
         "--save-name",
-        options["path"]
+        f'{options["path"]}.dirty'
     ]
 
     commands.append(n_m3u8dl_re_video_command)
@@ -231,6 +231,26 @@ def n_m3u8dl_re_download(options):
             subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         else:
             subprocess.run(command)
+
+def remove_phantom_subs(options):
+    ffmpeg_command = [
+        "ffmpeg",
+        "-i",
+        f'{options["path"]}.dirty.mp4',
+        "-map",
+        "0",
+        "-codec",
+        "copy",
+        "-bsf:v",
+        "filter_units=remove_types=6, filter_units=remove_types=39",
+        f'{options["path"]}.mp4',
+        "-y"
+    ]
+
+    if options["quiet"]:
+        subprocess.run(ffmpeg_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    else:
+        subprocess.run(ffmpeg_command)
 
     
 def mkvmerge_merge(options):

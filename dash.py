@@ -108,7 +108,7 @@ def setup_licence_challenge(pssh: str, licence_url: str, wvd_path: str, headers:
     # print keys
     for key in cdm.get_keys(session_id=session_id):
         decryption_keys.append(f"{key.kid.hex}:{key.key.hex()}")
-        print(decryption_keys[-1])
+        #print(decryption_keys[-1])
 
     # close session, disposes of session data
     cdm.close(session_id=session_id)
