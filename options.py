@@ -1,0 +1,21 @@
+
+
+class Options:
+    
+    # Options in settings.json
+    email: str
+    password: str
+    wvd_path: str = "device.wvd"
+    custom_string: str = ".WEB.H264-NoTag"
+
+    # Options using arguments
+    resolution: int = 1080
+    quiet: bool = False
+    audio_description: bool = False
+    allow_ads: bool = False
+    latest_episode: bool = False
+    subtitles: bool = False
+
+    # Options using argument to choose seasons and episodes
+    # IDK WHAT TO NAME IT
+
