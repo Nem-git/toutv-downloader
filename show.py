@@ -8,6 +8,7 @@ class Show:
     language: str
     country: str
     release_year: int
+    age_rating: str
     availability: str
 
     seasons: list[Season]

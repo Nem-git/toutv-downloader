@@ -19,3 +19,10 @@ class Options:
     # Options using argument to choose seasons and episodes
     # IDK WHAT TO NAME IT
 
+
+    # Options about favorite drm techs
+    favorite_drms = ["dash", "hls", "smooth"]
+
+    # Tokens
+    authorization_token: str
+    claims_token: str
