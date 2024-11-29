@@ -1,6 +1,6 @@
 import requests
 
-from show import Show
+from common.show import Show
 
 class Search:
 

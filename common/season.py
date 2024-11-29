@@ -1,4 +1,4 @@
-from episode import Episode
+from common.episode import Episode
 
 class Season:
     id: str

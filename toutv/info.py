@@ -1,9 +1,9 @@
 import requests
 
-from show import Show
-from season import Season
-from episode import Episode
-from options import Options
+from common.show import Show
+from common.season import Season
+from common.episode import Episode
+from common.options import Options
 
 class Info:
 
@@ -15,7 +15,7 @@ class Info:
         while not r.ok:
             r: requests.Response = requests.get(url)
         
-        info_response: dict[str, str] = r.json()
+        info_response = r.json()
 
         show.description = info_response["description"]
         show.content_type = info_response["contentType"]
@@ -43,8 +43,8 @@ class Info:
                 episode.availability = e["tier"]
                 episode.ad = episode.content_type == "Trailer"
                 episode.episode_number = e["episodeNumber"]
-                episode.enable_audio_description = e["videoDescriptionAvailable"]
-                episode.enable_subtitles = e["closedCaptionAvailable"]
+                episode.audio_description_available = e["videoDescriptionAvailable"]
+                episode.subtitles_available = e["closedCaptionAvailable"]
 
                 season.episodes.append(episode)
             
@@ -75,11 +75,11 @@ class Info:
             episode.subtitles_info.append({"url": f"https:{episode_info_response["Metas"]["closedCaption"]}"})
        
         else:
-            episode.enable_subtitles = False
+            episode.subtitles_available = False
 
         # Get audio description availability
         if not bool(episode_info_response["Metas"]["describedVideo"]):
-            episode.enable_audio_description = False
+            episode.audio_description_available = False
 
         # Need to find a way to get this the right way
         for tech in episode_info_response["availableTechs"]:
@@ -114,19 +114,19 @@ class Info:
 
                 # Playready DRM
                 case "playreadyLicenseUrl":
-                    episode.playready_license_url = param["value"]
+                    episode.playready_licence_url = param["value"]
                 case "playreadyAuthToken":
                     episode.playready_request_token = param["value"]
                 
                 # Widevine DRM
                 case "widevineLicenseUrl":
-                    episode.widevine_license_url = param["value"]
+                    episode.widevine_licence_url = param["value"]
                 case "widevineAuthToken":
                     episode.widevine_request_token = param["value"]
                 
                 # Fairplay DRM
                 case "faiplayLicenseUrl":
-                    episode.fairplay_license_url = param["value"]
+                    episode.fairplay_licence_url = param["value"]
                 case "fairplayCertificatePath":
                     episode.fairplay_certificate_path = param["value"]
                 case "fairplayAuthToken":
@@ -137,18 +137,18 @@ class Info:
 
             # Playready DRM
             case "smooth":
-                episode.license_url = episode.playready_license_url
+                episode.licence_url = episode.playready_licence_url
                 episode.request_token = episode.playready_request_token
             
             # Widevine DRM
             # Need to make playready work with dash too
             case "dash":
-                episode.license_url = episode.widevine_license_url
+                episode.licence_url = episode.widevine_licence_url
                 episode.request_token = episode.widevine_request_token
 
             # Fairplay DRM
             case "hls":
-                episode.license_url = episode.fairplay_license_url
+                episode.licence_url = episode.fairplay_licence_url
                 episode.request_token = episode.fairplay_request_token
         
         return episode

@@ -37,7 +37,6 @@ def get_pssh(mpd_link: str, quiet: bool):
 
     file_path = f"{os.getcwd()}/init.mp4"
     
-    command: str = f'yt-dlp -f bv --allow-u -o "{os.getcwd()}/init.mp4" --test "{mpd_link}"'
     command: list[str] = [
         "yt-dlp", #Command
         "-v", #Verbose
@@ -45,7 +44,7 @@ def get_pssh(mpd_link: str, quiet: bool):
         "bv", #Choose best video, but shouldnt matter
         "--allow-u", #Allow unplayable files to be downloaded
         "-o", #Output
-        f"{os.getcwd()}/init.mp4", #Temporary file to recuperate pssh
+        file_path, #Temporary file to recuperate pssh
         "--test", #No fucking clue ngl
         mpd_link #MPD link
     ]
@@ -66,10 +65,10 @@ def get_pssh(mpd_link: str, quiet: bool):
     pssh_list = from_file(file_path)
     target_pssh = None
 
-    # No idea what this does
+    # Don't understand what's bad with long PSSH
     for pssh in pssh_list:
-        if 20 < len(pssh) < 220:
-            target_pssh = pssh
+        #if 20 < len(pssh) < 220:
+        target_pssh = pssh
     os.remove(file_path)
 
     if not quiet:

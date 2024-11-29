@@ -4,7 +4,7 @@ import tools
 
 from show import Show
 from season import Season
-from episode import Episode
+from common.episode import Episode
 from file import File
 
 
