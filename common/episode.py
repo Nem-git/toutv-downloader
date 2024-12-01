@@ -1,48 +1,59 @@
-
+from common.video import Video
+from common.audio import Audio
+from common.subtitle import Subtitle
 
 class Episode:
     media_id: str
-    title: str
-    description: str
-    duration: float
+    title: str = "Title unavailable"
+    description: str = "Description unavailable"
+    duration: float = 0
     content_type: str
     availability: str
-    ad: bool
-    age_rating: str
-    release_year: int
-    server_code: str
-    episode_number: int
+    ad: bool = False
+    language: str = "Unavailable"
+    age_rating: str = "Unavailable"
+    release_year: int = 0
+    server_code: str = "Unavailable"
+    episode_number: int = 0
+    clean_name: str = ""
 
+    # Base path name
+    path: str
+
+    # Chosen drm type
     url: str
     licence_url: str
     request_token: str
 
-    drm_techs: list[str]
+    # Available drm types
+    drm_techs: list[str] = []
     drm_tech: str
 
+    # Microsoft
     playready_licence_url: str
     playready_request_token: str
 
+    # Google
     widevine_licence_url: str
     widevine_request_token: str
 
+    # Apple
     fairplay_licence_url: str
     fairplay_certificate_path: str
     fairplay_request_token: str
 
-    resolutions: list[int]
+    # Videos available
+    available_videos: list[Video] = []
+    selected_video: Video
 
-    audio_info: list[str]
+    # Audios available
+    audio_description_available: bool = False
+    available_audios: list[Audio] = []
+    selected_audios: list[Audio] = []
 
-    audio_description_available: bool
-    audio_description_info: list[dict[str, str]]
+    # Subtitles available
+    subtitles_available: bool = False
+    available_subtitles: list[Subtitle] = []
+    selected_subtitles: list[Subtitle] = []
 
-    subtitles_available: bool
-    subtitles_info: list[str]
-
-    video_codecs: list[str]
-    
-    pssh: str
-    decryption_keys: list[str]
-
-    path: str
+    mpd_content: bytes

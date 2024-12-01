@@ -1,8 +1,9 @@
-from options import Options
+
 import pywidevine
 import requests
 
 from common.episode import Episode
+from common.options import Options
 
 
 class Widevine:
@@ -31,7 +32,7 @@ class Widevine:
         # parse license challenge
         cdm.parse_license(session_id=session_id, license_message=licence.content)
 
-        decryption_keys: str
+        decryption_keys: list[str]
 
         # print keys
         for key in cdm.get_keys(session_id=session_id):
