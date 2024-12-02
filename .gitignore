@@ -179,3 +179,4 @@ manifest*
 *.wvd
 *.m4s
 *.mpd
+*.toml

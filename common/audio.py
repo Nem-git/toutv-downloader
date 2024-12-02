@@ -3,6 +3,7 @@
 class Audio:
 
     url: str = ""
+    name: str = ""
     codec: str = "aac"
     bitrate: int = 0
     language: str = "Unavailable"

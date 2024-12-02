@@ -23,11 +23,11 @@ class Name:
         return files
 
 
-    def Remove_Filename(self, name: str, folder: str, exceptions: list[str]):
+    def Remove_Filename(self, name: str, folder: str, filetypes: list[str]):
         
         for file in self.Find_Filename(name, "", folder):
-            for exception in exceptions:
-                if file[-len(exception):] != exception:
+            for filetype in filetypes:
+                if file[-len(filetype):] == filetype:
                     os.remove(file)
 
 

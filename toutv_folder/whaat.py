@@ -12,6 +12,8 @@ from common.video import Video
 from common.pssh import Pssh
 from common.name import Name
 
+#import pycountry
+
 from toutv_folder.info import Info
 
 class Whaat:
@@ -40,16 +42,22 @@ class Whaat:
                 audio = Audio()
                 audio.custom_string = ".main"
                 audio.download_filters = 'role="main":'
+                audio.default = True
+                audio.audio_description = False
+
                 if (episode.language[:2]).upper() == "FR":
                     audio.language = "FR"
-                    if show.country == "CA":
-                        audio.language = "VFQ"
 
                 elif episode.language[:2].upper() == "EN":
                     audio.language = "EN"
 
                 else:
                     audio.language = "UND"
+
+                if show.country != "":
+                    audio.language = audio.language.lower() + "-" + show.country.upper()
+                    if audio.language.upper() == "FR" and show.country.upper() == "CA":
+                        audio.name = "VFQ"
                 
                 episode.selected_audios.append(audio)
                 
@@ -58,22 +66,17 @@ class Whaat:
                     audio = Audio()
                     audio.custom_string = ".ad"
                     audio.download_filters = 'role="alternate":'
+                    audio.default = False
+                    audio.audio_description = True
 
-                    if episode.language[:2].upper() == "FR":
-                        audio.language = "FR AD"
-                        if show.country == "CA":
-                            audio.language = "VFQ AD"
-
-                    elif episode.language[:2].upper() == "EN":
-                        audio.language = "EN AD"
-
-                    else:
-                        audio.language = "UND AD"
+                    audio.language = episode.selected_audios[0].language
+                    audio.name = episode.selected_audios[0].name + " AD"
+                    
                     
                     episode.selected_audios.append(audio)
 
                 #if options.subtitles:
-                if 1 == 1:
+                if True:
                     episode.selected_subtitles = episode.available_subtitles
 
                 episode.path = Name().Clean_Filename(show, season, episode, options)

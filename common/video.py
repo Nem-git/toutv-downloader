@@ -3,6 +3,7 @@
 class Video:
 
     url: str
+    title: str = "Unavailable"
     codec: str = "avc"
     resolution_width: int = 1920
     resolution_height: int = 1080

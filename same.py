@@ -1,39 +1,29 @@
 import sys
 
+from common.download import Download
 import tools
 
-from show import Show
-from season import Season
+from common.show import Show
+from common.season import Season
 from common.episode import Episode
-from file import File
+from toutv_folder import whaat
+from toutv_folder.info import Info
+from toutv_folder.login import Login
+from common.options import Options
+from toutv_folder.search import Search
+from toutv_folder import Whaat
 
 
 
-args = sys.argv
+class Same:
 
-#if len(args) < 2:
-    #print(toutv_tools.help_text)
+    def TEST(self):
+        options = Login().Login(Options())
 
-#    exit()
+        shows = Search().Shows("Bernard")
 
-#if args[1] == "help":
-    #print(toutv_tools.help_text)
+        show = Info().Shows(shows[0])
 
-#if args[1] == "connect":
-    
+        Whaat().Download_Toutv(show, options)
 
-#if args[1] == "search":
-
-    
-
-#if args[1] == "list":
-    
-
-#if args[1] == "info":
-    
-
-#if args[1] == "download":
-    
-
-
-
+Same().TEST()

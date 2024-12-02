@@ -90,6 +90,8 @@ class Info:
                 subtitle.type = "VTT"
             else:
                 subtitle.type = "SRT"
+            
+            episode.available_subtitles.append(subtitle)
 
         else:
             episode.subtitles_available = False

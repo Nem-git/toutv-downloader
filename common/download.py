@@ -13,9 +13,9 @@ from common.name import Name
 
 class Download:
 
-    def Merge(self, episode: Episode, options: Options):
+    def Merge(self, episode: Episode, options: Options) -> None:
         
-        mkvmerge_command = [
+        mkvmerge_command: list[str] = [
             "mkvmerge",
             "-o",
             f"{options.download_path}{episode.path}.mkv",
@@ -55,7 +55,8 @@ class Download:
             
 
         for subtitle in episode.selected_subtitles:
-            if options.subtitles:
+            #if options.subtitles:
+            if True:
                 mkvmerge_command.extend([
                     "--language", f'0:{subtitle.language}',
                     "--track-name", f"0:{subtitle.language.lower()} ",
@@ -64,7 +65,7 @@ class Download:
         
         subprocess.run(mkvmerge_command)
         
-        #Name().Remove_Filename(episode.path, options.download_path, ["mkv"])
+        Name().Remove_Filename(episode.path, options.download_path, [".mp4", ".m4a", ".vtt", ".srt"])
 
 
 
