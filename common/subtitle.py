@@ -2,11 +2,11 @@
 
 class Subtitle:
 
-    url: str
-    language: str = "Unavailable"
-    type: str = "Unavailable"
+    url: str = ""
+    language: str = ""
+    type: str = ""
     custom_string: str = ""
-    title: str = "Unavailable"
+    title: str = ""
 
     # N-m3u8dl-RE filters
     download_filters: str = ""

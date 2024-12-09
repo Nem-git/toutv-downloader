@@ -11,9 +11,9 @@ class Options:
     download_path: str = "./"
 
     # Options using arguments
-    resolution: int = 720
-    video_codec: str = "avc"
-    audio_codec: str = "aac"
+    resolution: int
+    video_codec: str = ""
+    audio_codec: str = ""
     quiet: bool = False
     audio_description: bool = False
     allow_ads: bool = False
@@ -28,7 +28,7 @@ class Options:
     favorite_drms: list[str] = ["dash", "hls", "smooth"]
 
     # Tier
-    tier: str
+    tier: str = ""
 
     # Tokens
     authorization_token: str = ""

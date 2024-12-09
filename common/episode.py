@@ -4,16 +4,16 @@ from common.subtitle import Subtitle
 
 class Episode:
     media_id: str
-    title: str = "Title unavailable"
-    description: str = "Description unavailable"
+    title: str = ""
+    description: str = ""
     duration: float = 0
     content_type: str
     availability: str
     ad: bool = False
-    language: str = "Unavailable"
-    age_rating: str = "Unavailable"
+    language: str = ""
+    age_rating: str = ""
     release_year: int = 0
-    server_code: str = "Unavailable"
+    server_code: str = ""
     episode_number: int = 0
     clean_name: str = ""
 
