@@ -16,7 +16,6 @@ class Options:
     audio_codec: str = ""
     quiet: bool = False
     audio_description: bool = False
-    allow_ads: bool = False
     latest_episode: bool = False
     subtitles: bool = False
 

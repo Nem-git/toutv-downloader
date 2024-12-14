@@ -2,6 +2,7 @@
 
 
 from common.audio import Audio
+from common.episode import Episode
 from common.interface import Interface
 from common.options import Options
 from common.season import Season
@@ -18,12 +19,12 @@ from toutv_folder.info import Info
 
 class Whaat:
         
-    def Download_Toutv(self, show: Show, options: Options) -> None:
+    def Download(self, show: Show, options: Options) -> None:
         
         for season in show.seasons:
             for episode in season.episodes:
 
-                episode = Info().Episodes(episode, options)
+                episode: Episode = Info().Episodes(episode, options)
                 
                 # Need to fix how I choose videos, audio tracks and subtitles
                 for video in episode.available_videos:

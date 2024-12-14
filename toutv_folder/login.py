@@ -16,24 +16,26 @@ from common.options import Options
 
 class Login:
 
+    settings_path: str = "settings_toutv"
+
     def Login(self, options: Options) -> Options:
         
         try:
-            options.Load("settings_toutv")
+            options.Load(self.settings_path)
         except:
-            options.Write("settings_toutv")
-            options.Load("settings_toutv")
+            options.Write(self.settings_path)
+            options.Load(self.settings_path)
 
         try:
             if not self.Verify_Expiration(options.authorization_token):
                 options.authorization_token = self.Access_Token(options)
                 options = self.Claims_Token(options)
-                options.Write("settings_toutv")
+                options.Write(self.settings_path)
         except:
             try:
                 options.authorization_token = self.Access_Token(options)
                 options = self.Claims_Token(options)
-                options.Write("settings_toutv")
+                options.Write(self.settings_path)
             except:
                 options.authorization_token = ""
                 options.claims_token = ""

@@ -8,7 +8,7 @@ from common.show import Show
 
 class Interface:
 
-    # Shows Content Types: 
+    # TOUTV Shows Content Types: 
     # Show (Genre emission sans sens dans les saisons, vite-pas-vite)
     # Season (Genre Stat, emission ou il y a une histoire)
     # Collection (Regroupement de choses qui font du sens ensemble, genre collection/scene-comique)
@@ -45,7 +45,7 @@ class Interface:
         
         episode_amount: int = 0
         for season in show.seasons:
-            for episode in season.episodes:
+            for _ in season.episodes:
                 episode_amount += 1
         
         print(f"{episode_amount} episodes")
