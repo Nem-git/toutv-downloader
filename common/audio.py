@@ -2,12 +2,12 @@
 
 class Audio:
 
-    url: str = ""
-    name: str = ""
-    codec: str = "aac"
-    bitrate: int = 0
-    language: str = "Unavailable"
-    custom_string: str = ""
+    url: str
+    name: str | None = None
+    codec: str | None = None
+    bitrate: int | None = None
+    language: str | None = None
+    custom_string: str | None = None
     audio_description: bool = False
     default: bool = False
 

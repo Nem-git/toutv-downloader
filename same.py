@@ -1,44 +1,56 @@
 
 import sys
 
+from common.arguments import Arguments
+from common.interface import Interface
 from common.show import Show
 from common.season import Season
 from common.episode import Episode
-from toutv import info
-from toutv_folder.info import Info
-from toutv_folder.login import Login
 from common.options import Options
-from toutv_folder.search import Search
-from toutv_folder import Whaat
-from common.arguments import Arguments
 
+
+from toutv_folder import Toutv
 
 
 class Same:
 
+
+
     def TEST(self):
-        options = Login().Login(Options())
 
         argvs = sys.argv
 
         arguments = Arguments()
 
+        options = Options()
+
         arguments.Parse(argvs, options)
 
-        shows = Search().Shows(arguments.show_name)
+        if arguments.method == "login":
+            Toutv().Login(options)
+        
+        if arguments.method == "info":
+            Toutv().Info(arguments.show_name)
+        
+        if arguments.method == "list":
+            Toutv().List(arguments.show_name)
+        
+        if arguments.method == "search":
+            Toutv().Search(arguments.show_name)
+        
+        if arguments.method == "download":
+            Toutv().Download(arguments.show_name, options)
 
-        show = Info().Shows(shows[0])
 
-        streaming_service: Whaat
-        method = ""
 
-        if arguments.streaming_servie == "toutv":
-            if arguments.method == "info":
-                method = Info().Shows
+
+
         
 
 
 
-        method(show, options)
+        #method(show, options)
 
-Same().TEST()
+
+if __name__ == "__main__":
+    Same().TEST()

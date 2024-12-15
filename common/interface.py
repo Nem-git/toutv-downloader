@@ -19,10 +19,13 @@ class Interface:
 
             print("SHOW")
             print("-------------------------------------------------------")
-            print(f"Show title: {show.title}")
-            print(f"Show ID: {show.id}")
+            if show.title:
+                print(f"Show title: {show.title}")
+            if show.id:
+                print(f"Show ID: {show.id}")
             print("-------------------------------------------------------")
-            print(f"Content type: {show.content_type}")
+            if show.content_type:
+                print(f"Content type: {show.content_type}")
             print("-------------------------------------------------------")
 
 
@@ -30,18 +33,26 @@ class Interface:
         
         print("SHOW")
         print("-------------------------------------------------------")
-        print(f"Show title: {show.title}")
-        print(f"Release year: {show.release_year}")
+        if show.title:
+            print(f"Show title: {show.title}")
+        if show.release_year:
+            print(f"Release year: {show.release_year}")
         print("-------------------------------------------------------")
-        print(f"Description: {show.description}")
+        if show.description:
+            print(f"Description: {show.description}")
         print("-------------------------------------------------------")
-        print(f"Country: {show.country}")
-        print(f"Language: {show.language}")
+        if show.country:
+            print(f"Country: {show.country}")
+        if show.language:
+            print(f"Language: {show.language}")
         print("-------------------------------------------------------")
-        print(f"Content type: {show.content_type}")
-        print(f"Content Rating: {show.age_rating}")
+        if show.content_type:
+            print(f"Content type: {show.content_type}")
+        if show.age_rating:
+            print(f"Content Rating: {show.age_rating}")
         print("-------------------------------------------------------")
-        print(f"{len(show.seasons)} seasons")
+        if show.seasons:
+            print(f"{len(show.seasons)} seasons")
         
         episode_amount: int = 0
         for season in show.seasons:
@@ -66,16 +77,23 @@ class Interface:
 
         print("SEASON")
         print("-------------------------------------------------------")
-        print(f"Season title: {season.title}")
-        print(f"Season {season.season_number}")
-        print(f"Release year: {season.release_year}")
+        if season.title:
+            print(f"Season title: {season.title}")
+        if season.season_number:
+            print(f"Season {season.season_number}")
+        if season.release_year:
+            print(f"Release year: {season.release_year}")
         print("-------------------------------------------------------")
-        print(f"Description: {season.description}")
+        if season.description:
+            print(f"Description: {season.description}")
         print("-------------------------------------------------------")
-        print(f"Content Rating: {season.age_rating}")
-        print(f"Content Availability: {season.availability}")
+        if season.age_rating:
+            print(f"Content Rating: {season.age_rating}")
+        if season.availability:
+            print(f"Content Availability: {season.availability}")
         print("-------------------------------------------------------")
-        print(f"{len(season.episodes)} episodes")
+        if season.episodes:
+            print(f"{len(season.episodes)} episodes")
         print("-------------------------------------------------------")
     
 
@@ -94,16 +112,25 @@ class Interface:
         # Trailer (Ad)
         print("EPISODE")
         print("-------------------------------------------------------")
-        print(f"Episode title: {episode.title}")
-        print(f"Episode {episode.episode_number}")
-        print(f"Release year: {episode.release_year}")
+        if episode.title:
+            print(f"Episode title: {episode.title}")
+        if episode.episode_number:
+            print(f"Episode {episode.episode_number}")
+        if episode.release_year:
+            print(f"Release year: {episode.release_year}")
         print("-------------------------------------------------------")
-        print(f"Description: {episode.description}")
+        if episode.description:
+            print(f"Description: {episode.description}")
         print("-------------------------------------------------------")
-        print(f"Is an ad: {episode.ad}")
-        print(f"Subtitles available: {episode.subtitles_available}")
-        print(f"Audio Description Available: {episode.audio_description_available}")
+        if episode.ad:
+            print(f"Is an ad: {episode.ad}")
+        if episode.subtitles_available:
+            print(f"Subtitles available: {episode.subtitles_available}")
+        if episode.audio_description_available:
+            print(f"Audio Description Available: {episode.audio_description_available}")
         print("-------------------------------------------------------")
-        print(f"DRM Available: {episode.drm_techs}")
-        print(f"Server name: {episode.server_code}")
+        if episode.drm_techs:
+            print(f"DRM Available: {episode.drm_techs}")
+        if episode.server_code:
+            print(f"Server name: {episode.server_code}")
         print("-------------------------------------------------------")

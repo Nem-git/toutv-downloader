@@ -18,7 +18,7 @@ class Arguments:
     end_season: int = 999
     end_episode: int = 999
 
-    def Parse(self, args: list[str], options: Options):
+    def Parse(self, args: list[str], options: Options) -> None:
 
         parser: argparse.ArgumentParser = self.Create()
 
@@ -28,6 +28,11 @@ class Arguments:
             self.Seasons_Episodes(args[4])
         
         print(self.start_season, self.start_episode, self.end_season, self.end_episode)
+
+        options.start_season = self.start_season
+        options.start_episode = self.start_episode
+        options.end_season = self.end_season
+        options.end_episode = self.end_episode
 
         self.show_name = parsed_args.show_name
         self.season_episode = parsed_args.season_episode
@@ -63,12 +68,13 @@ class Arguments:
         parser.add_argument(
             "method",
             help="Show informations, list all episodes, connect to the streaming site and download",
-            choices=["connect", "info", "list", "download"],
+            choices=["login", "search", "info", "list", "download"],
         )
 
         parser.add_argument(
             "show_name",
             help="Show's name (Ex: 'temps de chien')",
+            nargs="?",
             type=str
         )
 
@@ -117,36 +123,36 @@ class Arguments:
         )
         
         download_group.add_argument(
-            "--latest",
             "-l",
+            "--latest",
             help="Downloads only the latest episode",
             action="store_true",
             default=False
         )
         download_group.add_argument(
-            "--subtitles",
             "-s",
+            "--subtitles",
             help="Downloads all subtitles available",
             action="store_true",
             default=False
         )
         download_group.add_argument(
-            "--audio-description",
             "-ad",
+            "--audio-description",
             help="Downloads audio description audio",
             action="store_true",
             default=False
         )
         download_group.add_argument(
-            "--quiet",
             "-q",
+            "--quiet",
             help="Don't receive output on the terminal",
             action="store_true",
             default=False
         )
         download_group.add_argument(
-            "--resolution",
             "-r",
+            "--resolution",
             help="Tries to download video at screen height given",
             action="store",
             default=1080,

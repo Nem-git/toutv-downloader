@@ -17,7 +17,7 @@ class Name:
 
         for file in os.listdir(folder):
             if os.path.isfile(file):
-                if filetype == "" or filetype == file[-len(filetype):]:
+                if name == file[:len(name)] and (filetype == "" or filetype == file[-len(filetype):]):
                     files.append(file)
         
         return files

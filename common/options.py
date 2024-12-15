@@ -19,6 +19,12 @@ class Options:
     latest_episode: bool = False
     subtitles: bool = False
 
+    start_season: int
+    start_episode: int
+    end_season: int
+    end_episode: int
+    
+
     # Options using argument to choose seasons and episodes
     # IDK WHAT TO NAME IT
 

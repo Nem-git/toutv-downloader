@@ -119,7 +119,10 @@ class Info:
         while not r.ok:
             r: requests.Response = requests.get(manifest_info_url, headers=options.headers)
         
-        manifest_info_response: dict[str, str] = r.json()
+        manifest_info_response: dict[str, str | int] = r.json()
+
+        if manifest_info_response["errorCode"] != 0:
+            raise requests.RequestException(r)
 
         # Get manifest URL
         episode.url = manifest_info_response["url"]

@@ -44,7 +44,7 @@ class Episode:
 
     # Videos available
     available_videos: list[Video] = []
-    selected_video: Video
+    selected_video: Video| None = None
 
     # Audios available
     audio_description_available: bool = False
