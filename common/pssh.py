@@ -24,7 +24,7 @@ class Pssh:
     # Widevine System ID
     WIDEVINE_SYSTEM_ID = 'EDEF8BA9-79D6-4ACE-A3C8-27DCD51D21ED'
 
-    def Get(self, episode: Episode, video: Video, options: Options) -> Video:
+    def Get(self, episode: Episode, video: Video, options: Options) -> None:
         episode.mpd_content = self.fetch_mpd_content(episode.url)
 
         video.pssh = self.extract_or_generate_pssh(episode.url, episode.mpd_content)
@@ -32,7 +32,7 @@ class Pssh:
 
         video.decryption_keys = self.get_key(video.pssh, episode.licence_url, options.wvd_path, options.license_headers)
 
-        return video
+
 
 
 

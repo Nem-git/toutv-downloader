@@ -7,7 +7,7 @@ class Options:
     email: str = "sibapiy973@nausard.com"
     password: str = "sibapiy973@nausard.com"
     wvd_path: str = "device.wvd"
-    custom_string: str = ".WEB.H264-NoTag"
+    custom_string: str = "-NoTag"
     download_path: str = "./"
 
     # Options using arguments

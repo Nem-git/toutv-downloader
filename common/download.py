@@ -47,7 +47,7 @@ class Download:
 
             command.extend([
                 "--language", f'0:{audio.language}',
-                "--track-name", f"0:{audio.language}",
+                "--track-name", f"0:{audio.name}",
                 Name().Find_Filename(episode.path, ".m4a", options.download_path)[0]
             ])
 
@@ -55,11 +55,10 @@ class Download:
             
 
         for subtitle in episode.selected_subtitles:
-            #if options.subtitles:
-            if True:
+            if options.subtitles:
                 mkvmerge_command.extend([
                     "--language", f'0:{subtitle.language}',
-                    "--track-name", f"0:{subtitle.language.lower()} ",
+                    "--track-name", f"0:{subtitle.title.lower()} ",
                     Name().Find_Filename(episode.path, f".{subtitle.type.lower()}", options.download_path)[0]
                 ])
         
@@ -81,7 +80,7 @@ class Download:
     def Audio(self, episode: Episode, audio: Audio, options: Options) -> None:
 
         n_m3u8dl_re_command = [
-            "./n-m3u8dl-re",
+            "n-m3u8dl-re",
             episode.url,
             "--decryption-engine",
             "FFMPEG",
@@ -100,7 +99,7 @@ class Download:
     def Video(self, episode: Episode, options: Options) -> None:
 
         n_m3u8dl_re_command = [
-            "./n-m3u8dl-re",
+            "n-m3u8dl-re",
             episode.url,
             "--decryption-engine",
             "SHAKA_PACKAGER",

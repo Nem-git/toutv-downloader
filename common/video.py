@@ -17,7 +17,7 @@ class Video:
 
     # Filter list for phantom subs
     # filter_units=remove_types={video.filter_unit_type}
-    filter_unit: list[str] = ["-bsf:v", "filter_units=remove_types=6, filter_units=remove_types=39"]
+    filter_unit: list[str] # ["-bsf:v", "filter_units=remove_types=6, filter_units=remove_types=39"]
 
     # Decryption informations
     pssh: str = ""

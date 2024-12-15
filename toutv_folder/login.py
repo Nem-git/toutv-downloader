@@ -18,7 +18,7 @@ class Login:
 
     settings_path: str = "settings_toutv"
 
-    def Login(self, options: Options) -> Options:
+    def Login(self, options: Options) -> None:
         
         try:
             options.Load(self.settings_path)
@@ -40,10 +40,6 @@ class Login:
                 options.authorization_token = ""
                 options.claims_token = ""
                 options.tier = "Free"
-        
-        
-
-        return options
 
 
 
@@ -59,7 +55,7 @@ class Login:
         return True
 
 
-    def Claims_Token(self, options: Options) -> Options:
+    def Claims_Token(self, options: Options) -> None:
 
         url = "https://services.radio-canada.ca/ott/subscription/v2/toutv/subscriber/profile?device=web"
         options.headers["Authorization"] = options.authorization_token
@@ -69,8 +65,6 @@ class Login:
         options.claims_token = resp["claimsToken"]
         options.headers["x-claims-token"] = options.claims_token
         options.tier = resp["tier"]
-
-        return options
 
 
 

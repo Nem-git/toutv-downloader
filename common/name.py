@@ -11,6 +11,15 @@ from common.show import Show
 
 class Name:
 
+    codecs: dict[str, str] = {
+        "avc": "H264",
+        "hevc": "H265",
+        "av1": "AV1",
+        "aac": "AAC",
+        "ac3": "AC3",
+
+    }
+
 
     def Find_Filename(self, name: str, filetype: str, folder: str) -> list[str]:
         files: list[str] = []
@@ -54,13 +63,13 @@ class Name:
         if options.audio_description:
             path += ".AD"
         
-        path += f".{episode.selected_video.resolution_height}p{options.custom_string}"
+        path += f".{episode.selected_video.resolution_height}p.WEB.{self.codecs[episode.selected_video.codec]}{options.custom_string}"
 
         return path
 
 
-    def Clean_Name(self, show: Show, season: Season, episode: Episode):
+    def Clean_Name(self, show: Show, season: Season, episode: Episode) -> None:
 
         # Need to make it so its different if not a series
         name: str = f"{show.title} Season {season.season_number} Episode {episode.episode_number}"
-        return name
+        episode.clean_name = name

@@ -144,11 +144,22 @@ class Arguments:
             default=False
         )
         download_group.add_argument(
-            "-q",
-            "--quiet",
-            help="Don't receive output on the terminal",
-            action="store_true",
-            default=False
+            "-vc",
+            "--video-codec",
+            help="Tries to download video using the given video codec (Ex: -vc avc)",
+            choices=["avc", "hevc", "av1"],
+            action="store",
+            default=None,
+            type=str
+        )
+        download_group.add_argument(
+            "-ac",
+            "--audio-codec",
+            help="Tries to download audio using the video audio codec (Ex: -ac aac)",
+            choices=["mp4a"],
+            action="store",
+            default=None,
+            type=str
         )
         download_group.add_argument(
             "-r",
@@ -157,6 +168,13 @@ class Arguments:
             action="store",
             default=1080,
             type=int
+        )
+        download_group.add_argument(
+            "-q",
+            "--quiet",
+            help="Don't receive output on the terminal",
+            action="store_true",
+            default=False
         )
 
         return parser

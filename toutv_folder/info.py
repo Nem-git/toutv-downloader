@@ -9,7 +9,7 @@ from common.video import Video
 
 class Info:
 
-    def Shows(self, show: Show) -> Show:
+    def Shows(self, show: Show) -> None:
         url: str = f"https://services.radio-canada.ca/ott/catalog/v2/toutv/show/{show.id}?device=web"
 
         r: requests.Response = requests.get(url)
@@ -60,10 +60,8 @@ class Info:
                 season.episodes.append(episode)
             
             show.seasons.append(season)
-
-        return show
     
-    def Episodes(self, episode: Episode, options: Options) -> Episode:
+    def Episodes(self, episode: Episode, options: Options) -> None:
         episode_info_url: str = f"https://services.radio-canada.ca/media/meta/v1/index.ashx?appCode=toutv&idMedia={episode.media_id}&output=jsonObject"
 
         r: requests.Response = requests.get(episode_info_url)
@@ -122,7 +120,7 @@ class Info:
         manifest_info_response: dict[str, str | int] = r.json()
 
         if manifest_info_response["errorCode"] != 0:
-            raise requests.RequestException(r)
+            raise requests.RequestException("Your account doesn't have the right to access this content")
 
         # Get manifest URL
         episode.url = manifest_info_response["url"]
@@ -183,5 +181,3 @@ class Info:
             case "hls":
                 episode.licence_url = episode.fairplay_licence_url
                 episode.request_token = episode.fairplay_request_token
-        
-        return episode
