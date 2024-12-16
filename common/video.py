@@ -21,4 +21,4 @@ class Video:
 
     # Decryption informations
     pssh: str = ""
-    decryption_keys: list[str] = []
+    decryption_keys: list[str]

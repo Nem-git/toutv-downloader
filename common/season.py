@@ -9,4 +9,4 @@ class Season:
     age_rating: str | None = None
     availability: str | None = None
     
-    episodes: list[Episode] = []
+    episodes: list[Episode]

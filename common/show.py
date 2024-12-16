@@ -11,4 +11,4 @@ class Show:
     age_rating: str | None = None
     availability: str | None = None
 
-    seasons: list[Season] = []
+    seasons: list[Season]

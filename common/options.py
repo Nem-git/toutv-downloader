@@ -40,8 +40,8 @@ class Options:
     claims_token: str = ""
 
     # Headers
-    headers: dict[str, str] = {}
-    license_headers: dict[str, str] = {}
+    headers: dict[str, str]
+    license_headers: dict[str, str]
 
     toml_config = {}
 

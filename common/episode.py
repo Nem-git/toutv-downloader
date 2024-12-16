@@ -26,7 +26,7 @@ class Episode:
     request_token: str
 
     # Available drm types
-    drm_techs: list[str] = []
+    drm_techs: list[str]
     drm_tech: str
 
     # Microsoft
@@ -43,17 +43,17 @@ class Episode:
     fairplay_request_token: str
 
     # Videos available
-    available_videos: list[Video] = []
+    available_videos: list[Video]
     selected_video: Video| None = None
 
     # Audios available
     audio_description_available: bool = False
-    available_audios: list[Audio] = []
-    selected_audios: list[Audio] = []
+    available_audios: list[Audio]
+    selected_audios: list[Audio]
 
     # Subtitles available
     subtitles_available: bool = False
-    available_subtitles: list[Subtitle] = []
-    selected_subtitles: list[Subtitle] = []
+    available_subtitles: list[Subtitle]
+    selected_subtitles: list[Subtitle]
 
     mpd_content: bytes

@@ -37,6 +37,7 @@ class Download:
                 
                 # Need to fix how I choose videos, audio tracks and subtitles
                 for video in episode.available_videos:
+                    video.download_filters = ""
                     
                     if options.resolution:
                         video.download_filters += f"res='{options.resolution}*':"
@@ -49,11 +50,15 @@ class Download:
                         episode.selected_video = video
 
                 episode.selected_video.codec = "avc"
-                episode.selected_video.filter_unit= ["-bsf:v", "'filter_units=remove_types=6'"]
+                episode.selected_video.filter_unit = []
+                episode.selected_video.filter_unit.append("-bsf:v")
+                episode.selected_video.filter_unit.append("'filter_units=remove_types=6'")
                 
                 #for audio in episode.selected_audios:
                 #    NEED TO FIX HAVING MULTIPLE LANGUAGES
                 #    episode.language = common.Language().Fix(audio, show.country)
+
+                episode.selected_audios = []
                 
                 audio = common.Audio()
                 audio.custom_string = ".main"
@@ -95,9 +100,10 @@ class Download:
                 common.Name().Clean_Name(show, season, episode)
 
                 # Token required to get mpd link
-                options.license_headers = {"x-dt-auth-token": episode.request_token}
+                options.license_headers = {}
+                options.license_headers["x-dt-auth-token"] = episode.request_token
 
-                episode.selected_video = common.Pssh().Get(episode, episode.selected_video, options)
+                common.Pssh().Get(episode, episode.selected_video, options)
                 common.Download().Video(episode, options)
                 
                 for audio in episode.selected_audios:

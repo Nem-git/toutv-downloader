@@ -75,6 +75,7 @@ class Info:
         episode.server_code = episode_info_response["Metas"]["appCode"]
 
         # Get captions
+        episode.available_subtitles = []
         if bool(episode_info_response["Metas"]["EIA608ClosedCaptions"]):
             subtitle: common.Subtitle = common.Subtitle()
             subtitle.url = f"https:{episode_info_response["Metas"]["closedCaption"]}"
