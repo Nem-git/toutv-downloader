@@ -4,7 +4,7 @@ import common
 #import pycountry
 
 import common.language
-from toutv_folder.info import Info
+from services.toutv.info import Info
 
 class Download:
         

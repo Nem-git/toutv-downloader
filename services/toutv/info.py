@@ -1,15 +1,10 @@
 import requests
 
-from common.show import Show
-from common.season import Season
-from common.episode import Episode
-from common.options import Options
-from common.subtitle import Subtitle
-from common.video import Video
+import common
 
 class Info:
 
-    def Shows(self, show: Show) -> None:
+    def Shows(self, show: common.Show) -> None:
         url: str = f"https://services.radio-canada.ca/ott/catalog/v2/toutv/show/{show.id}?device=web"
 
         r: requests.Response = requests.get(url)
@@ -34,7 +29,7 @@ class Info:
         show.seasons = []
 
         for s in info_response["content"][0]["lineups"]:
-            season = Season()
+            season = common.Season()
 
             season.id = s["url"]
             season.title = s["title"]
@@ -43,7 +38,7 @@ class Info:
             season.episodes = []
 
             for e in s["items"]:
-                episode = Episode()
+                episode = common.Episode()
 
                 episode.media_id = e["idMedia"]
                 episode.title = e["title"]
@@ -61,7 +56,7 @@ class Info:
             
             show.seasons.append(season)
     
-    def Episodes(self, episode: Episode, options: Options) -> None:
+    def Episodes(self, episode: common.Episode, options: common.Options) -> None:
         episode_info_url: str = f"https://services.radio-canada.ca/media/meta/v1/index.ashx?appCode=toutv&idMedia={episode.media_id}&output=jsonObject"
 
         r: requests.Response = requests.get(episode_info_url)
@@ -81,7 +76,7 @@ class Info:
 
         # Get captions
         if bool(episode_info_response["Metas"]["EIA608ClosedCaptions"]):
-            subtitle: Subtitle = Subtitle()
+            subtitle: common.Subtitle = common.Subtitle()
             subtitle.url = f"https:{episode_info_response["Metas"]["closedCaption"]}"
 
             if subtitle.url[-4:] == ".vtt":
@@ -132,7 +127,7 @@ class Info:
         # Get resolutions available
         episode.available_videos = []
         for resolution in manifest_info_response["bitrates"]:
-            video: Video = Video()
+            video: common.Video = common.Video()
             video.bitrate = resolution["bitrate"]
             video.resolution_width = resolution["width"]
             video.resolution_height = resolution["height"]

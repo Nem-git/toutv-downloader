@@ -12,7 +12,7 @@ class Search:
         while not r.ok:
             r: requests.Response = requests.get(url)
         
-        search_response: dict[str, str] = r.json()
+        search_response: dict[str, list[dict[str, str]]] = r.json()
 
         shows: list[Show] = []
         for result in search_response["result"]:
@@ -20,9 +20,20 @@ class Search:
             show = Show()
             show.id = result["url"]
             show.title = result["title"]
+
+            # TOUTV Shows Content Types: 
+            # Show (Genre emission sans sens dans les saisons, vite-pas-vite)
+            # Season (Genre Stat, emission ou il y a une histoire)
+            # Collection (Regroupement de choses qui font du sens ensemble, genre collection/scene-comique)
+            # Media (Un certain episode qui pour une raison est cherchable, Volleyball et « volley-splash », vite-pas-vite/s04e24)
+
             show.content_type = result["type"]
 
+            if show.content_type == "Season":
+                show.content_type = "Series"
+
             if show.content_type in ["Show", "Season"]:
+            
                 shows.append(show)
         
         return shows

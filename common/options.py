@@ -4,8 +4,8 @@ import toml
 class Options:
 
     # Options in settings.json
-    email: str = "sibapiy973@nausard.com"
-    password: str = "sibapiy973@nausard.com"
+    email: str = "gexij90758@eoilup.com"
+    password: str = "Gexij90758@eoilup.com"
     wvd_path: str = "device.wvd"
     custom_string: str = "-NoTag"
     download_path: str = "./"

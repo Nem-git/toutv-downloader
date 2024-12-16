@@ -1,9 +1,0 @@
-{
-    "email" : "changethisemail@mail.com",
-
-    "password" : "notVerySecurePassword",
-
-    "wvdPath" : "device.wvd",
-
-    "customString" : ".WEB.H264.NoTag"
-}

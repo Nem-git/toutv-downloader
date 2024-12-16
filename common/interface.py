@@ -8,11 +8,6 @@ from common.show import Show
 
 class Interface:
 
-    # TOUTV Shows Content Types: 
-    # Show (Genre emission sans sens dans les saisons, vite-pas-vite)
-    # Season (Genre Stat, emission ou il y a une histoire)
-    # Collection (Regroupement de choses qui font du sens ensemble, genre collection/scene-comique)
-    # Media (Un certain episode qui pour une raison est cherchable, Volleyball et « volley-splash », vite-pas-vite/s04e24)
     def Show_Search(self, shows: list[Show]) -> None:
         
         for show in shows:
