@@ -12,6 +12,9 @@ shows = search.Shows(query)
 
 show = shows[0]
 
-Info().Shows(show)
+Info().Show(show)
+
+for s in show.seasons:
+    Info().Season(s)
 
 print("WAIT")

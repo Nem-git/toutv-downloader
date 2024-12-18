@@ -4,7 +4,7 @@ import common
 
 class Info:
 
-    def Shows(self, show: common.Show) -> None:
+    def Show(self, show: common.Show) -> None:
         url: str = f"https://services.radio-canada.ca/ott/catalog/v2/toutv/show/{show.id}?device=web"
 
         r: requests.Response = requests.get(url)
@@ -14,17 +14,18 @@ class Info:
         
         info_response = r.json()
 
+        show.title = info_response["title"]
         show.description = info_response["description"]
         show.content_type = info_response["contentType"]
         try:
             show.language = info_response["structuredMetadata"]["inLanguage"]
         except:
-            show.language = "Unavailable"
+            show.language = "und"
         
         try:
             show.country = info_response["structuredMetadata"]["countryOfOrigin"]["name"]
         except:
-            show.language = "Unavailable"
+            show.country = "und"
         
         show.seasons = []
 

@@ -22,7 +22,7 @@ class Toutv:
     def Info(self, show_name: str) -> common.Show:
         shows: list[common.Show] = Search().Shows(show_name)
         show: common.Show = shows[0]
-        Info().Shows(show)
+        Info().Show(show)
         common.Interface().Show_Info(show)
 
         return show
@@ -30,7 +30,7 @@ class Toutv:
     def List(self, show_name: str) -> common.Show:
         shows: list[common.Show] = self.Search(show_name)
         show: common.Show = shows[0]
-        Info().Shows(show)
+        Info().Show(show)
         common.Interface().Show_List(show)
 
         return show
@@ -38,7 +38,7 @@ class Toutv:
     def Download(self, show_name: str, options: common.Options) -> None:
         shows: list[common.Show] = Search().Shows(show_name)
         show: common.Show = shows[0]
-        Info().Shows(show)
+        Info().Show(show)
         Login().Login(options)
 
         options.headers = {}
