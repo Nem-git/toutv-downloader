@@ -16,5 +16,8 @@ Info().Show(show)
 
 for s in show.seasons:
     Info().Season(s)
+    for e in s.episodes:
+        Info().Episode(e)
+
 
 print("WAIT")

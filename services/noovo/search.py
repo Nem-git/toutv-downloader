@@ -34,7 +34,7 @@ query searchResults($title: String!, $pageSize: Int!, $page: Int = 0, $subscript
         ... on Medias {
             page(page: $page) {
                 items {
-                    id
+                    axisId
                     title
                     mediaType
                 }
@@ -61,7 +61,7 @@ query searchResults($title: String!, $pageSize: Int!, $page: Int = 0, $subscript
         for result in search_response["data"]["searchResults"]["page"]["items"]:
 
             show = Show()
-            show.id = result["id"]
+            show.id = result["axisId"]
             show.title = result["title"]
 
             # Types:

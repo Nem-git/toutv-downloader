@@ -1,15 +1,42 @@
-IMPROVE LANGUAGE SELECTION
-CLEAN DOWNLOAD PART OF TOUTV
+ADD SETTINGS TO SET LANGUAGE, FOR EVERYTHING EXCEPT LOGIN, BECAUSE WHO CARES
 
-Crave:
+IMPROVE LANGUAGE SELECTION
+ADD SUPPORT FOR SHOWS WITHOUT SEASONS NOOVO
+CLEAN DOWNLOAD PART OF TOUTV
+CHECK IF I CAN GET RELEASE YEAR FROM EPISODE ON NOOVO USING BROADCASTDATE
+ADD PLAYREADY AND SMOOTH COMPATIBILITY
+BTW, TO GET PLAYREADY VIDEO FROM NOOVO, REPLACE .MPD to .PMPD
+
+NOOVO AND CRAVE when filter=fe:
 1: UHD
 2: HD
 3: MCV
 4: MCA
-5: MULTILANG
+5: MULTILANG ONLY FOR Crave
 6: MTA
 7: TPT
 8: STT
 
+
+
+UHD = Supposed to get 1080p content, never seen it work on noovo (not needed with ultimate instead of best)
+HD = Get 720p content and higher (needed to get 1080p content with ultimate)
+MCV = IDK
+MCA = Get higher bitrate audio for main audio, 384 instead of 128 kbps, and AC3 instead of mp4a (prob AAC)
+MULTILANG = Access multiple languages
+MTA = Audio Description
+TPT = IDK
+STT = Subtitles
+
+BEST CONFIG:
+ultimate
+UHD = True Just in case, doesnt do shit on noovo though
+HD = True
+MCV = False
+MCA = True
+MULTILANG = True
+MTA = True
+TPT = False
+STT = True
 
 NEED TO DO TRY EXCEPTS WITH ERROR HANDLING BOOOOOOOORING
