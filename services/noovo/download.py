@@ -4,6 +4,7 @@ import common
 #import pycountry
 
 import common.language
+from common.video import Video
 from services.noovo.info import Info
 
 class Download:
@@ -15,6 +16,7 @@ class Download:
                 break
             if options.latest_episode and season != show.seasons[-1]:
                 continue
+            Info().Season(season)
             for episode in season.episodes:
 
                 if season.season_number == options.end_season and episode.episode_number > options.end_episode:
@@ -32,62 +34,46 @@ class Download:
 
                 Info().Episode(episode)
 
-                # ONLY APPLIES TO TOUTV
+                # ONLY APPLIES TO NOOVO
                 #-------------------------------------------------------------------------------
-                
-                # Need to fix how I choose videos, audio tracks and subtitles
-                for video in episode.available_videos:
-                    video.download_filters = ""
-                    
-                    if options.resolution:
-                        video.download_filters += f"res='{options.resolution}*':"
-                    if options.video_codec:
-                        video.download_filters += f"codecs='{options.video_codec}'"
-                    if not episode.selected_video:
-                        episode.selected_video = video
+                episode.selected_video = Video()
 
-                    if options.resolution <= video.resolution_height:
-                        episode.selected_video = video
+                # Need to fix how I choose videos, audio tracks and subtitles
+                episode.selected_video.download_filters = ""
+                    
+                if options.resolution:
+                    episode.selected_video.download_filters += f"res='{options.resolution}*':"
+                if options.video_codec:
+                    episode.selected_video.download_filters += f"codecs='{options.video_codec}'"
 
                 episode.selected_video.codec = "avc"
                 episode.selected_video.filter_unit = []
                 episode.selected_video.filter_unit.append("-bsf:v")
                 episode.selected_video.filter_unit.append("'filter_units=remove_types=6'")
+
+
                 
                 #for audio in episode.selected_audios:
                 #    NEED TO FIX HAVING MULTIPLE LANGUAGES
                 #    episode.language = common.Language().Fix(audio, show.country)
 
                 episode.selected_audios = []
-                
-                audio = common.Audio()
-                audio.custom_string = ".main"
-                audio.download_filters = 'role="main":'
-                audio.default = True
-                audio.audio_description = False
-                audio.language = show.language
-                episode.language = common.Language().Fix(audio, show.country)
 
-                # That's a fucking guess :D
-                if episode.language == "und-CA" or episode.language == "fr-CA":
-                    episode.language = "fr-CA"
-                    audio.name = "VFQ"
-                
-                audio.language = episode.language
-                
-                episode.selected_audios.append(audio)
-                
-                if options.audio_description:
-                    audio = common.Audio()
-                    audio.custom_string = ".ad"
-                    audio.download_filters = 'role="alternate":'
-                    audio.default = False
-                    audio.audio_description = True
-
-                    audio.language = episode.selected_audios[0].language
-                    audio.name = f"{episode.selected_audios[0].name} AD"
+                for audio in episode.available_audios:
+                    # That's a fucking guess :D
+                    if episode.language == "und-CA" or episode.language == "fr-CA":
+                        episode.language = "fr-CA"
+                        audio.name = "VFQ"
                     
-                    episode.selected_audios.append(audio)
+                    if audio.audio_description:
+                        audio.name += " AD"
+                    
+                    # If you chose to have audio description OR it's the main audio, which is needed
+                    if options.audio_description or audio.default:
+                        episode.selected_audios.append(audio)
+                    
+                    
+                    episode.language = common.Language().Fix(audio, show.country)
 
                 if options.subtitles:
                     episode.selected_subtitles = episode.available_subtitles
@@ -98,10 +84,6 @@ class Download:
                 episode.path = episode.path.replace("fr-CA", "VFQ")
 
                 common.Name().Clean_Name(show, season, episode)
-
-                # Token required to get mpd link
-                options.license_headers = {}
-                options.license_headers["x-dt-auth-token"] = episode.request_token
 
                 common.Pssh().Get(episode, episode.selected_video, options)
                 common.Download().Video(episode, options)

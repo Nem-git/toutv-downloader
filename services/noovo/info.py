@@ -93,6 +93,9 @@ query axisMedia($axisMediaId: ID!, $subscriptions: [Subscription]!, $maturity: M
         show.release_year = content_data["firstAirYear"]
         show.age_rating = content_data["agvotCode"]
 
+        # Cant find that info anywhere, I looked man!!
+        show.country = "und"
+
         if content_data["mediaConstraint"]["hasConstraintsNow"]:
             show.availability = "Premium"
         else:
@@ -238,6 +241,8 @@ query season($seasonId: ID!, $subscriptions: [Subscription]!, $maturity: Maturit
                             audio = Audio()
                             audio.audio_description = True
                             audio.default = False
+                            audio.custom_string = ".ad"
+                            audio.download_filters = 'role="alternate":'
                             audio.language = language["languageCode"]
                             episode.available_audios.append(audio)
                             # NEED TO ADD LANGUAGE CHOICE OPTION
@@ -247,6 +252,8 @@ query season($seasonId: ID!, $subscriptions: [Subscription]!, $maturity: Maturit
                             audio = Audio()
                             audio.audio_description = False
                             audio.default = True
+                            audio.custom_string = ".main"
+                            audio.download_filters = 'role="main":'
                             audio.language = language["languageCode"]
                             episode.available_audios.append(audio)
         
@@ -403,7 +410,7 @@ query axisContent($id: ID!, $subscriptions: [Subscription]!, $maturity: Maturity
         episode.description = resp["Desc"]
         episode.content_type = resp["Type"]
         episode.episode_number = resp["Episode"]
-        episode.language = resp["SpokenLanguage"]
+        #episode.language = resp["SpokenLanguage"]
         if resp["Authentication"]["Required"]:
             episode.availability = "Premium"
         else:

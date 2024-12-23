@@ -40,7 +40,4 @@ class Noovo:
         Info().Show(show)
         Login().Login(options)
 
-        options.headers["Authorization"] = options.authorization_token
-        options.headers["x-claims-token"] = options.claims_token
-
         Download().Download(show, options)
