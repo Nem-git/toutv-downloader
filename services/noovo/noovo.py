@@ -4,6 +4,7 @@ import common
 from services.noovo.info import Info
 from services.noovo.login import Login
 from services.noovo.search import Search
+from services.noovo.download import Download
 
 
 class Noovo:
@@ -20,7 +21,7 @@ class Noovo:
     def Info(self, show_name: str) -> common.Show:
         shows: list[common.Show] = Search().Shows(show_name)
         show: common.Show = shows[0]
-        Info().Shows(show)
+        Info().Show(show)
         common.Interface().Show_Info(show)
 
         return show
@@ -28,7 +29,7 @@ class Noovo:
     def List(self, show_name: str) -> common.Show:
         shows: list[common.Show] = self.Search(show_name)
         show: common.Show = shows[0]
-        Info().Shows(show)
+        Info().Show(show)
         common.Interface().Show_List(show)
 
         return show
@@ -36,7 +37,7 @@ class Noovo:
     def Download(self, show_name: str, options: common.Options) -> None:
         shows: list[common.Show] = Search().Shows(show_name)
         show: common.Show = shows[0]
-        Info().Shows(show)
+        Info().Show(show)
         Login().Login(options)
 
         options.headers["Authorization"] = options.authorization_token

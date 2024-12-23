@@ -4,7 +4,7 @@ import common
 #import pycountry
 
 import common.language
-from services.toutv.info import Info
+from services.noovo.info import Info
 
 class Download:
         
@@ -30,7 +30,7 @@ class Download:
                 if episode.ad:
                     continue
 
-                Info().Episode(episode, options)
+                Info().Episode(episode)
 
                 # ONLY APPLIES TO TOUTV
                 #-------------------------------------------------------------------------------

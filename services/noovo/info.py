@@ -390,7 +390,7 @@ query axisContent($id: ID!, $subscriptions: [Subscription]!, $maturity: Maturity
                         subtitle.language = language["languageCode"]
                         episode.available_subtitles.append(subtitle)
 
-        url: str = f"https://capi.9c9media.com/destinations/{episode.server_code}/platforms/desktop/contents/{episode.media_id}?$lang=fr&$include=[Desc,ContentPackages,Authentication,Season,Owner]"
+        url: str = f"https://capi.9c9media.com/destinations/{episode.server_code}/platforms/desktop/contents/{episode.media_id}?$lang=fr&$include=[Desc,Type,ContentPackages,Authentication]"
 
         r: requests.Response = requests.get(url)
 
@@ -402,4 +402,28 @@ query axisContent($id: ID!, $subscriptions: [Subscription]!, $maturity: Maturity
         episode.title = resp["Name"]
         episode.description = resp["Desc"]
         episode.content_type = resp["Type"]
+        episode.episode_number = resp["Episode"]
+        episode.language = resp["SpokenLanguage"]
+        if resp["Authentication"]["Required"]:
+            episode.availability = "Premium"
+        else:
+            episode.availability = "Free"
         
+        episode.media_id += f'/contentPackages/{resp["ContentPackages"][0]["Id"]}'
+        episode.duration = resp["ContentPackages"][0]["Duration"]
+
+        url: str = f"https://capi.9c9media.com/destinations/{episode.server_code}/platforms/desktop/playback/contents/{episode.media_id}/manifest.mpd?action=reference&filter=fe&uhd=true&hd=true&mcv=false&mca=true&mta=true&tpt=false&stt=true"
+
+        r: requests.Response = requests.get(url)
+
+        # Low resolution MPD
+        episode.url = r.text
+        with open("episode.json", "wt") as f:
+            f.write(episode.url)
+        
+        # High resolution MPD
+        episode.url.replace("best", "ultimate")
+
+        # Kinda shit way of setting Subtitles URL ngl, but I havent found a better way to do it on Noovo. Seems like theu only allow 1 subtitle track per episode
+        for subtitle in episode.available_subtitles:
+            subtitle.url = f"https://capi.9c9media.com/destinations/{episode.server_code}/platforms/desktop/playback/contents/{episode.media_id}/manifest.vtt"

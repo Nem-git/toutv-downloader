@@ -57,7 +57,7 @@ class Info:
             
             show.seasons.append(season)
     
-    def Episodes(self, episode: common.Episode, options: common.Options) -> None:
+    def Episode(self, episode: common.Episode, options: common.Options) -> None:
         episode_info_url: str = f"https://services.radio-canada.ca/media/meta/v1/index.ashx?appCode=toutv&idMedia={episode.media_id}&output=jsonObject"
 
         r: requests.Response = requests.get(episode_info_url)
